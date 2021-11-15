@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
-//lets me use ICommand
 using System.Windows.Input;
 using Xamarin.Forms;
 
