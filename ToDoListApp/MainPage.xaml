@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ToDoListApp"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             x:Class="ToDoListApp.MainPage">
+
+    <ContentPage.BindingContext>
+        <!-- access code in todolistviewmodel.cs -->
+        <local:TodoListViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <!-- Input field for the user to input a todo - bound up to newtodoinputvalue -->
+        <Entry 
+            x:Name="InputField"
+            Text="{Binding NewTodoInputValue}" 
+            Placeholder="Enter a todo"
+            ReturnCommand="{Binding AddTodoCommand}"
+            />
+<!-- Simple text that says "TodoList"-->
+        <Label Text="TodoList:" FontSize="30" HorizontalTextAlignment="Center"/>
+
+        <ListView x:Name="TodoList" ItemsSource="{Binding TodoItems}">
+            <!-- view as list-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <!-- Flex styling with spacebetween objects and aligning center + padding -->
+                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="10, 0">
+                            <ContentView>
+                                <FlexLayout JustifyContent="Start"  Padding="10, 2">
+                                    <!-- Checkbox to see if todo is completed-->
+                                    <input:CheckBox IsChecked="{Binding Complete}"/>
+                                    <!-- access todotext -->
+                                    <Label Text="{Binding TodoText}" FontSize="20" Padding="10, 8"/>
+                                </FlexLayout>
+                            </ContentView>
+                            <!-- Deletebutton with trashcanimage -->
+                            <!-- access removetodocommand -->
+                            <ImageButton 
+                                Source="delete.png"
+                                Scale="0.8"
+                                Command="{Binding Path=BindingContext.RemoveTodoCommand, Source={x:Reference TodoList}}"
+                                CommandParameter="{Binding .}"
+                                />
+                        </FlexLayout>
+                        
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </StackLayout>
+
+</ContentPage>
